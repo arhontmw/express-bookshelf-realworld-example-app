@@ -4,6 +4,16 @@ stages:
   # укажем одну стадию с именем test
   - test
 
+cache:
+  key:
+    files:
+      - package-lock.json # используем хеш файла как ключ кеша
+  paths:
+    - .npm/ # указываем, что именно кешировать
+
+before_script:
+  - npm ci --cache .npm --prefer-offline
+
 # создадим job с именем eslint
 eslint:
   # укажем нужный Docker образ
@@ -17,7 +27,7 @@ eslint:
   # секция script описывает шаги
   script:
     # установка зависимостей
-    - npm install
+    - npm install # будет использовать кеш
     # запуск ESLint
     - npm run lint
 
@@ -34,6 +44,6 @@ prettier:
   # секция script описывает шаги
   script:
     # установка зависимостей
-    - npm install
+    - npm install # будет использовать кеш
     # запуск Prettier
     - npm run check:format
