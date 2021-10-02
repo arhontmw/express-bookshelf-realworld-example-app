@@ -1,5 +1,4 @@
-stages:
-  -lint
+stages: -lint
 
 eslint:
   stage: lint
